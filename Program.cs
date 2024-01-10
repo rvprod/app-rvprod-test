@@ -7,8 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add Db context
 var connectionString = System.Environment.GetEnvironmentVariable("APP_RVPROD_TEST_CONNECTIONSTRING");
 
-Console.WriteLine($"CN={connectionString}");
-
 builder.Services.AddDbContextFactory<ApplicationDbContext>(
     options => options.UseSqlServer(connectionString));
 
