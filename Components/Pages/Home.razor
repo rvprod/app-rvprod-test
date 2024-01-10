@@ -1,0 +1,38 @@
+﻿@page "/"
+
+@using Microsoft.EntityFrameworkCore
+@using app_rvprod_test.Models
+@using app_rvprod_test.Data;
+@using app_rvprod_test.Repos;
+
+@inject IDbContextFactory<ApplicationDbContext> ContextFactory
+@implements IDisposable
+
+<PageTitle>Home</PageTitle>
+
+@if (products is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <p>Total Products: @(products.Count())</p>
+}
+
+@code
+{
+    private ProductRepo? repo;
+    private List<Product>? products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        repo = new ProductRepo(ContextFactory.CreateDbContext());
+        products = await repo.GetAllAsync();
+    }
+
+    public void Dispose()
+    {
+        repo?.Dispose();
+    }
+
+}
